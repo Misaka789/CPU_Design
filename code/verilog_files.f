@@ -36,3 +36,9 @@ sccomp.v
 // for synthesis, you would typically use a different file list
 // that excludes the testbench.
 sccomp_tb.v
+
+//pipeline_cpu.v
+pipeline_reg.v
+if_id_reg.v
+id_ex_reg.v
+ex_mem_reg.v

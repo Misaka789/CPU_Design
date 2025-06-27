@@ -15,8 +15,10 @@ module sccomp_tb();
   	integer counter = 0;
    
    initial begin
-      $readmemh( "Test_8_Instr.dat" , U_SCCOMP.U_IM.ROM); // load instructions into instruction memory
-//    $monitor("PC = 0x%8X, instr = 0x%8X", U_SCCOMP.PC, U_SCCOMP.instr); // used for debug
+      $readmemh( "riscv32_sim4.dat" , U_SCCOMP.U_IM.ROM,0,30); // load instructions into instruction memory 这里改为0 到 14
+      $dumpfile("sccomp.vcd");
+      $dumpvars;
+     $monitor("PC = 0x%8X, instr = 0x%8X", U_SCCOMP.PC, U_SCCOMP.instr); // used for debug
       foutput = $fopen("results.txt");
       clk = 1;
       rstn = 1;
@@ -37,7 +39,7 @@ module sccomp_tb();
         $stop;
       end
       else begin
-        if (U_SCCOMP.PC == 32'h00000048) begin
+        if (U_SCCOMP.PC == 32'h000003c) begin // 48 需要根据实际的地址来判断
           counter = counter + 1;
           $fdisplay(foutput, "pc:\t %h", U_SCCOMP.PC);
           $fdisplay(foutput, "instr:\t\t %h", U_SCCOMP.instr);
@@ -49,14 +51,14 @@ module sccomp_tb();
           $fdisplay(foutput, "rf20-23:\t %h %h %h %h", U_SCCOMP.U_SCPU.U_RF.rf[20], U_SCCOMP.U_SCPU.U_RF.rf[21], U_SCCOMP.U_SCPU.U_RF.rf[22], U_SCCOMP.U_SCPU.U_RF.rf[23]);
           $fdisplay(foutput, "rf24-27:\t %h %h %h %h", U_SCCOMP.U_SCPU.U_RF.rf[24], U_SCCOMP.U_SCPU.U_RF.rf[25], U_SCCOMP.U_SCPU.U_RF.rf[26], U_SCCOMP.U_SCPU.U_RF.rf[27]);
           $fdisplay(foutput, "rf28-31:\t %h %h %h %h", U_SCCOMP.U_SCPU.U_RF.rf[28], U_SCCOMP.U_SCPU.U_RF.rf[29], U_SCCOMP.U_SCPU.U_RF.rf[30], U_SCCOMP.U_SCPU.U_RF.rf[31]);
-          //$fdisplay(foutput, "hi lo:\t %h %h", U_SCCOMP.U_SCPU.U_RF.rf.hi, U_SCCOMP.U_SCPU.U_RF.rf.lo);
+       //   $fdisplay(foutput, "hi lo:\t %h %h", U_SCCOMP.U_SCPU.U_RF.rf.hi, U_SCCOMP.U_SCPU.U_RF.rf.lo);
           $fclose(foutput);
-          $stop;
+          $finish;
         end
         else begin
           counter = counter + 1;
-//          $display("pc: %h", U_SCCOMP.U_SCPU.PC);
-//          $display("instr: %h", U_SCCOMP.U_SCPU.instr);
+          $display("pc: %h", U_SCCOMP.PC);
+          $display("instr: %h", U_SCCOMP.instr);
         end
       end
     end

@@ -1,4 +1,4 @@
-module sccomp(clk, rstn, reg_sel, reg_data);
+module sccomp(clk, rstn, reg_sel, reg_data);  // 这里的输入是
    input          clk;
    input          rstn;
    input [4:0]    reg_sel;
