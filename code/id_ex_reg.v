@@ -18,6 +18,8 @@ module ID_EX_Register (
     input [1:0]  i_WDSel,
     input        i_ALUSrc,
     input [4:0]  i_ALUOp,
+    input [2:0]  i_NPCOp,
+    input [31:0] i_PC,
 
     // --- Outputs to EX Stage ---
     output [31:0] o_PC_plus_4,
@@ -31,7 +33,9 @@ module ID_EX_Register (
     output        o_MemRead,
     output [1:0]  o_WDSel,
     output        o_ALUSrc,
-    output [4:0]  o_ALUOp
+    output [4:0]  o_ALUOp,
+    output [2:0]  o_NPCOp,
+    output [31:0] o_PC
 );
 
     // Data Path Registers
@@ -48,4 +52,6 @@ module ID_EX_Register (
     pipeline_reg #(.WIDTH(2)) wdsel_reg    (.clk(clk), .reset(reset), .d(i_WDSel),    .q(o_WDSel));
     pipeline_reg #(.WIDTH(1)) alusrc_reg   (.clk(clk), .reset(reset), .d(i_ALUSrc),   .q(o_ALUSrc));
     pipeline_reg #(.WIDTH(5)) aluop_reg    (.clk(clk), .reset(reset), .d(i_ALUOp),    .q(o_ALUOp));
+    pipeline_reg #(.WIDTH(3)) npc_reg    (.clk(clk), .reset(reset), .d(i_NPCOp),    .q(o_NPCOp));
+    pipeline_reg #(.WIDTH(32)) current_pc_reg    (.clk(clk), .reset(reset), .d(i_PC),    .q(o_PC));
 endmodule

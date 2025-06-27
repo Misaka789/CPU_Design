@@ -15,7 +15,7 @@ module sccomp_tb();
   	integer counter = 0;
    
    initial begin
-      $readmemh( "riscv32_sim2.dat" , U_SCCOMP.U_IM.ROM,0,30); // load instructions into instruction memory 这里改为0 到 14
+      $readmemh( "riscv32_sim6.dat" , U_SCCOMP.U_IM.ROM,0,126); // load instructions into instruction memory 这里改为0 到 14
       $dumpfile("sccomp.vcd");
       $dumpvars;
      $monitor("PC = 0x%8X, instr = 0x%8X", U_SCCOMP.PC, U_SCCOMP.instr); // used for debug
@@ -39,7 +39,7 @@ module sccomp_tb();
         $stop;
       end
       else begin
-        if (U_SCCOMP.PC == 32'h0000040) begin // 48 需要根据实际的地址来判断
+        if (U_SCCOMP.PC == 32'h0000070) begin // 48 需要根据实际的地址来判断
           counter = counter + 1;
           $fdisplay(foutput, "pc:\t %h", U_SCCOMP.PC);
           $fdisplay(foutput, "instr:\t\t %h", U_SCCOMP.instr);

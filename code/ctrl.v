@@ -126,7 +126,7 @@ wire i_sltiu = itype_r & ~Funct3[2]& Funct3[1]& Funct3[0]; //011
   // NPC_JUMP    3'b010
   // NPC_JALR	3'b100
   assign NPCOp[0] = sbtype & Zero;
-  assign NPCOp[1] = i_jal;
+  assign NPCOp[1] = i_jal;    // 无条件跳转
 	assign NPCOp[2]=  i_jalr;
   
 

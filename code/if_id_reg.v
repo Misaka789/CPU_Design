@@ -8,10 +8,12 @@ module IF_ID_Register (
     // --- Inputs from IF Stage ---
     input [31:0] i_inst,        // The instruction fetched from memory
     input [31:0] i_PC_plus_4,   // The calculated PC+4 value
+    input [31:0] i_PC,
 
     // --- Outputs to ID Stage ---
     output [31:0] o_inst,       // The instruction passed to the ID stage
-    output [31:0] o_PC_plus_4   // The PC+4 value passed to the ID stage
+    output [31:0] o_PC_plus_4,   // The PC+4 value passed to the ID stage
+    output [31:0] o_PC
 );
 
     // Instantiate a 32-bit register for the instruction
@@ -28,6 +30,12 @@ module IF_ID_Register (
         .reset(reset), 
         .d(i_PC_plus_4), 
         .q(o_PC_plus_4)
+    );
+    pipeline_reg #(.WIDTH(32)) pc (
+        .clk(clk), 
+        .reset(reset), 
+        .d(i_PC), 
+        .q(o_PC)
     );
 
 endmodule
