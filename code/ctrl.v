@@ -84,6 +84,10 @@ wire i_xori = itype_r& Funct3[2]& ~Funct3[1]&~Funct3[0]; // 100
 wire i_xor = rtype &~Funct7[6]&~Funct7[5]&~Funct7[4]&~Funct7[3]&~Funct7[2]&~Funct7[1]&~Funct7[0]& Funct3[2]& ~Funct3[1]&~Funct3[0];
 //0000000 100
 
+wire i_sltu = rtype  &~Funct7[6]&~Funct7[5]&~Funct7[4]&~Funct7[3]&~Funct7[2]&~Funct7[1]&~Funct7[0]& ~Funct3[2]&Funct3[1]&Funct3[0]; //011
+wire i_slti = itype_r & ~Funct3[2]& Funct3[1]&~Funct3[0]; //010
+wire i_sltiu = itype_r & ~Funct3[2]& Funct3[1]& Funct3[0]; //011
+
 // 缺失的指令补充完毕
 
   // generate control signals
@@ -126,12 +130,12 @@ wire i_xor = rtype &~Funct7[6]&~Funct7[5]&~Funct7[4]&~Funct7[3]&~Funct7[2]&~Func
   
 
  
-	assign ALUOp[0] = itype_l|stype|i_addi|i_ori|i_add|i_or | utype | i_sll | i_slli | i_sra | i_srai;
-	assign ALUOp[1] = i_jalr|itype_l|stype|i_addi|i_add|i_and | i_sll | i_slli;
+	assign ALUOp[0] = itype_l|stype|i_addi|i_ori|i_add|i_or | utype | i_sll | i_slli | i_sra | i_srai | i_sltu | i_sltiu;
+	assign ALUOp[1] = i_jalr|itype_l|stype|i_addi|i_add|i_and | i_sll | i_slli | i_slt | i_slti | i_sltu | i_sltiu;
 	//assign ALUOp[2] = i_andi|i_and|i_ori|i_or|i_beq|i_sub;
 	//assign ALUOp[3] = i_andi|i_and|i_ori|i_or;
 	assign ALUOp[2] = i_and|i_ori|i_or|i_beq|i_sub | i_sll | i_slli | i_xor | i_xori;
-    assign ALUOp[3] = i_and|i_ori|i_or | i_sll | i_slli | i_xor | i_xori;    
+    assign ALUOp[3] = i_and|i_ori|i_or | i_sll | i_slli | i_xor | i_xori | i_slt | i_slti | i_sltu | i_sltiu;    
 	assign ALUOp[4] = i_srli | i_srl | i_sra | i_srai;
 
 // 后续需要添加DMType等指令类型
