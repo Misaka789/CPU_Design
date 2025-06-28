@@ -57,7 +57,6 @@ module SCPU(
     // Stage 1: IF (Instruction Fetch)
     // 
     wire [31:0] NPC, IF_PC_plus_4;
-
     PC U_PC(.clk(clk), .rst(reset), .NPC(NPC), .PC(PC_out));
     // 修改这里来实现NPC的跳转
     wire [31:0] ID_Imm;
@@ -69,7 +68,9 @@ module SCPU(
                  (ID_NPCOp == `NPC_BRANCH) ? ID_PC + ID_Imm :
                  (ID_NPCOp == `NPC_JUMP)   ? ID_PC + ID_Imm :
                  (ID_NPCOp == `NPC_JALR)   ? ID_RD1 + ID_Imm :
-                 PC_out + 32'd4; // default case to avoid latches
+                 PC_out + 32'd4; 
+
+
 // PC 控制逻辑
 // In EX stage
     //NPC U_NPC(.NPCOp(ID_NPCOp),.IMM(ID_Imm),.PC(PC_out) ,.NPC(NPC), .aluout(ID_Imm));
@@ -123,8 +124,12 @@ module SCPU(
         
         // 在这个阶段进行跳转的判断
         //wire ID_Zero;
-        assign ID_Zero = ID_RD1 == ID_RD2;  // 在ID阶段进行判断是否相等, 如果相等那么可以进行跳转 branch 
+        //assign ID_Zero = ID_RD1 == ID_RD2;  // 在ID阶段进行判断是否相等, 如果相等那么可以进行跳转 branch 
+        // 实例化比较器
+        comparator U_comparator(.Funct3(ID_inst[14:12]) , .Op(ID_inst[6:0]), .RD1(ID_RD1), .RD2(ID_RD2) ,.Zero(ID_Zero));
+            
 
+        
     // 
     // Pipeline Register: ID/EX
     // 

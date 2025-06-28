@@ -88,6 +88,11 @@ wire i_sltu = rtype  &~Funct7[6]&~Funct7[5]&~Funct7[4]&~Funct7[3]&~Funct7[2]&~Fu
 wire i_slti = itype_r & ~Funct3[2]& Funct3[1]&~Funct3[0]; //010
 wire i_sltiu = itype_r & ~Funct3[2]& Funct3[1]& Funct3[0]; //011
 
+// sb条件跳转指令的实现
+wire i_bne = sbtype & (Funct3 == 3'b001);
+wire i_blt = sbtype & (Funct3 == 3'b100);
+wire i_bltu = sbtype & (Funct3 == 3'b110);
+wire i_bgeu = sbtype & (Funct3 == 3'b111);
 
 // 缺失的指令补充完毕
 
@@ -112,9 +117,6 @@ wire i_sltiu = itype_r & ~Funct3[2]& Funct3[1]& Funct3[0]; //011
   assign EXTOp[1]    = utype;   
   assign EXTOp[0]    = i_jal;         
 
-
-  
-  
   // WDSel_FromALU 2'b00
   // WDSel_FromMEM 2'b01
   // WDSel_FromPC  2'b10 

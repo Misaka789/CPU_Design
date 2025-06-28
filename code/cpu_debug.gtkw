@@ -1,0 +1,82 @@
+[*]
+[*] GTKWave Analyzer v3.3.100 (w)1999-2019 BSI
+[*] Sat Jun 28 05:14:31 2025
+[*]
+[dumpfile] "D:\User\DeskTop\cpu_design\code-sc\code\sccomp.vcd"
+[dumpfile_mtime] "Sat Jun 28 04:57:13 2025"
+[dumpfile_size] 1217359
+[savefile] "D:\User\DeskTop\cpu_design\code-sc\code\cpu_debug.gtkw"
+[timestart] 3994
+[size] 1000 634
+[pos] 881 202
+*-8.000000 4443 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] sccomp_tb.
+[treeopen] sccomp_tb.U_SCCOMP.
+[sst_width] 197
+[signals_width] 217
+[sst_expanded] 1
+[sst_vpaned_height] 165
+@22
+sccomp_tb.U_SCCOMP.U_SCPU.PC_out[31:0]
+@c00022
+sccomp_tb.U_SCCOMP.U_SCPU.inst_in[31:0]
+@28
+(0)sccomp_tb.U_SCCOMP.U_SCPU.inst_in[31:0]
+(1)sccomp_tb.U_SCCOMP.U_SCPU.inst_in[31:0]
+(2)sccomp_tb.U_SCCOMP.U_SCPU.inst_in[31:0]
+(3)sccomp_tb.U_SCCOMP.U_SCPU.inst_in[31:0]
+(4)sccomp_tb.U_SCCOMP.U_SCPU.inst_in[31:0]
+(5)sccomp_tb.U_SCCOMP.U_SCPU.inst_in[31:0]
+(6)sccomp_tb.U_SCCOMP.U_SCPU.inst_in[31:0]
+(7)sccomp_tb.U_SCCOMP.U_SCPU.inst_in[31:0]
+(8)sccomp_tb.U_SCCOMP.U_SCPU.inst_in[31:0]
+(9)sccomp_tb.U_SCCOMP.U_SCPU.inst_in[31:0]
+(10)sccomp_tb.U_SCCOMP.U_SCPU.inst_in[31:0]
+(11)sccomp_tb.U_SCCOMP.U_SCPU.inst_in[31:0]
+(12)sccomp_tb.U_SCCOMP.U_SCPU.inst_in[31:0]
+(13)sccomp_tb.U_SCCOMP.U_SCPU.inst_in[31:0]
+(14)sccomp_tb.U_SCCOMP.U_SCPU.inst_in[31:0]
+(15)sccomp_tb.U_SCCOMP.U_SCPU.inst_in[31:0]
+(16)sccomp_tb.U_SCCOMP.U_SCPU.inst_in[31:0]
+(17)sccomp_tb.U_SCCOMP.U_SCPU.inst_in[31:0]
+(18)sccomp_tb.U_SCCOMP.U_SCPU.inst_in[31:0]
+(19)sccomp_tb.U_SCCOMP.U_SCPU.inst_in[31:0]
+(20)sccomp_tb.U_SCCOMP.U_SCPU.inst_in[31:0]
+(21)sccomp_tb.U_SCCOMP.U_SCPU.inst_in[31:0]
+(22)sccomp_tb.U_SCCOMP.U_SCPU.inst_in[31:0]
+(23)sccomp_tb.U_SCCOMP.U_SCPU.inst_in[31:0]
+(24)sccomp_tb.U_SCCOMP.U_SCPU.inst_in[31:0]
+(25)sccomp_tb.U_SCCOMP.U_SCPU.inst_in[31:0]
+(26)sccomp_tb.U_SCCOMP.U_SCPU.inst_in[31:0]
+(27)sccomp_tb.U_SCCOMP.U_SCPU.inst_in[31:0]
+(28)sccomp_tb.U_SCCOMP.U_SCPU.inst_in[31:0]
+(29)sccomp_tb.U_SCCOMP.U_SCPU.inst_in[31:0]
+(30)sccomp_tb.U_SCCOMP.U_SCPU.inst_in[31:0]
+(31)sccomp_tb.U_SCCOMP.U_SCPU.inst_in[31:0]
+@1401200
+-group_end
+@22
+sccomp_tb.U_SCCOMP.U_SCPU.NPC[31:0]
+sccomp_tb.U_SCCOMP.U_SCPU.ID_inst[31:0]
+@28
+sccomp_tb.U_SCCOMP.U_SCPU.ID_Zero
+@22
+sccomp_tb.U_SCCOMP.U_SCPU.ID_Imm[31:0]
+@c00028
+sccomp_tb.U_SCCOMP.U_SCPU.ID_NPCOp[2:0]
+@28
+(0)sccomp_tb.U_SCCOMP.U_SCPU.ID_NPCOp[2:0]
+(1)sccomp_tb.U_SCCOMP.U_SCPU.ID_NPCOp[2:0]
+(2)sccomp_tb.U_SCCOMP.U_SCPU.ID_NPCOp[2:0]
+@1401200
+-group_end
+@22
+sccomp_tb.U_SCCOMP.U_SCPU.ID_rd[4:0]
+sccomp_tb.U_SCCOMP.U_SCPU.ID_rs2[4:0]
+sccomp_tb.U_SCCOMP.U_SCPU.ID_RD1[31:0]
+sccomp_tb.U_SCCOMP.U_SCPU.ID_RD2[31:0]
+sccomp_tb.U_SCCOMP.U_SCPU.ID_PC[31:0]
+@28
+sccomp_tb.U_SCCOMP.U_SCPU.ID_RegWrite
+[pattern_trace] 1
+[pattern_trace] 0

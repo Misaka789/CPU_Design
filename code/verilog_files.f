@@ -42,3 +42,4 @@ pipeline_reg.v
 if_id_reg.v
 id_ex_reg.v
 ex_mem_reg.v
+comparator.v

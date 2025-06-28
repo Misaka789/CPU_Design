@@ -13,9 +13,10 @@ module sccomp_tb();
 
   	integer foutput;
   	integer counter = 0;
+    integer counter2 = 0;
    
    initial begin
-      $readmemh( "riscv32_sim6.dat" , U_SCCOMP.U_IM.ROM,0,126); // load instructions into instruction memory 这里改为0 到 14
+      $readmemh( "riscv32_sim6.dat" , U_SCCOMP.U_IM.ROM,0,255); // load instructions into instruction memory 这里改为0 到 14
       $dumpfile("sccomp.vcd");
       $dumpvars;
      $monitor("PC = 0x%8X, instr = 0x%8X", U_SCCOMP.PC, U_SCCOMP.instr); // used for debug
@@ -32,14 +33,38 @@ module sccomp_tb();
    
     always begin
     #(50) clk = ~clk;
+
 	   
     if (clk == 1'b1) begin
-      if ((counter == 1000) || (U_SCCOMP.U_SCPU.PC_out=== 32'hxxxxxxxx)) begin
+      if ((counter == 1000)|| (U_SCCOMP.U_SCPU.PC_out=== 32'hxxxxxxxx)) begin
+        if(U_SCCOMP.U_SCPU.PC_out=== 32'hxxxxxxxx) begin
+          counter2 = counter2 + 1;
+          if(counter2 == 3) begin 
+                      $fdisplay(foutput, "pc:\t %h", U_SCCOMP.PC);
+          $fdisplay(foutput, "instr:\t\t %h", U_SCCOMP.instr);
+          $fdisplay(foutput, "rf00-03:\t %h %h %h %h", 0, U_SCCOMP.U_SCPU.U_RF.rf[1], U_SCCOMP.U_SCPU.U_RF.rf[2], U_SCCOMP.U_SCPU.U_RF.rf[3]);
+          $fdisplay(foutput, "rf04-07:\t %h %h %h %h", U_SCCOMP.U_SCPU.U_RF.rf[4], U_SCCOMP.U_SCPU.U_RF.rf[5], U_SCCOMP.U_SCPU.U_RF.rf[6], U_SCCOMP.U_SCPU.U_RF.rf[7]);
+          $fdisplay(foutput, "rf08-11:\t %h %h %h %h", U_SCCOMP.U_SCPU.U_RF.rf[8], U_SCCOMP.U_SCPU.U_RF.rf[9], U_SCCOMP.U_SCPU.U_RF.rf[10], U_SCCOMP.U_SCPU.U_RF.rf[11]);
+          $fdisplay(foutput, "rf12-15:\t %h %h %h %h", U_SCCOMP.U_SCPU.U_RF.rf[12], U_SCCOMP.U_SCPU.U_RF.rf[13], U_SCCOMP.U_SCPU.U_RF.rf[14], U_SCCOMP.U_SCPU.U_RF.rf[15]);
+          $fdisplay(foutput, "rf16-19:\t %h %h %h %h", U_SCCOMP.U_SCPU.U_RF.rf[16], U_SCCOMP.U_SCPU.U_RF.rf[17], U_SCCOMP.U_SCPU.U_RF.rf[18], U_SCCOMP.U_SCPU.U_RF.rf[19]);
+          $fdisplay(foutput, "rf20-23:\t %h %h %h %h", U_SCCOMP.U_SCPU.U_RF.rf[20], U_SCCOMP.U_SCPU.U_RF.rf[21], U_SCCOMP.U_SCPU.U_RF.rf[22], U_SCCOMP.U_SCPU.U_RF.rf[23]);
+          $fdisplay(foutput, "rf24-27:\t %h %h %h %h", U_SCCOMP.U_SCPU.U_RF.rf[24], U_SCCOMP.U_SCPU.U_RF.rf[25], U_SCCOMP.U_SCPU.U_RF.rf[26], U_SCCOMP.U_SCPU.U_RF.rf[27]);
+          $fdisplay(foutput, "rf28-31:\t %h %h %h %h", U_SCCOMP.U_SCPU.U_RF.rf[28], U_SCCOMP.U_SCPU.U_RF.rf[29], U_SCCOMP.U_SCPU.U_RF.rf[30], U_SCCOMP.U_SCPU.U_RF.rf[31]);
+       //   $fdisplay(foutput, "hi lo:\t %h %h", U_SCCOMP.U_SCPU.U_RF.rf.hi, U_SCCOMP.U_SCPU.U_RF.rf.lo);
+         // $fclose(foutput);
+         
+         $fclose(foutput);
+          $finish;
+         
+          end
+        end
+        else begin 
         $fclose(foutput);
         $stop;
+        end
       end
       else begin
-        if (U_SCCOMP.PC == 32'h0000070) begin // 48 需要根据实际的地址来判断
+        if (U_SCCOMP.PC == 32'h00000310) begin // 48 需要根据实际的地址来判断
           counter = counter + 1;
           $fdisplay(foutput, "pc:\t %h", U_SCCOMP.PC);
           $fdisplay(foutput, "instr:\t\t %h", U_SCCOMP.instr);
