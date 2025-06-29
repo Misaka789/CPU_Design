@@ -15,6 +15,7 @@ module EX_MEM_Register (
     input        i_MemWrite,
     input        i_MemRead,
     input [1:0]  i_WDSel,
+    input [2:0]  i_DMType,
 
     // --- Outputs to MEM Stage ---
     output [31:0] o_ALU_out,
@@ -25,7 +26,8 @@ module EX_MEM_Register (
     output        o_RegWrite,
     output        o_MemWrite,
     output        o_MemRead,
-    output [1:0]  o_WDSel
+    output [1:0]  o_WDSel,
+    output [2:0]  o_DMType
 );
 
     // Data Path Registers
@@ -39,5 +41,6 @@ module EX_MEM_Register (
     pipeline_reg #(.WIDTH(1)) memwrite_reg (.clk(clk), .reset(reset), .d(i_MemWrite), .q(o_MemWrite));
     pipeline_reg #(.WIDTH(1)) memread_reg  (.clk(clk), .reset(reset), .d(i_MemRead),  .q(o_MemRead));
     pipeline_reg #(.WIDTH(2)) wdsel_reg    (.clk(clk), .reset(reset), .d(i_WDSel),    .q(o_WDSel));
+    pipeline_reg #(.WIDTH(3)) DMType_reg    (.clk(clk), .reset(reset), .d(i_DMType),    .q(o_DMType));
 
 endmodule

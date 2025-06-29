@@ -20,6 +20,7 @@ module ID_EX_Register (
     input [4:0]  i_ALUOp,
     input [2:0]  i_NPCOp,
     input [31:0] i_PC,
+    input [2:0]  i_DMType,
 
     // --- Outputs to EX Stage ---
     output [31:0] o_PC_plus_4,
@@ -35,7 +36,8 @@ module ID_EX_Register (
     output        o_ALUSrc,
     output [4:0]  o_ALUOp,
     output [2:0]  o_NPCOp,
-    output [31:0] o_PC
+    output [31:0] o_PC,
+    output [2:0]  o_DMType
 );
 
     // Data Path Registers
@@ -44,6 +46,7 @@ module ID_EX_Register (
     pipeline_reg #(.WIDTH(32)) rd2_reg  (.clk(clk), .reset(reset), .d(i_RD2),       .q(o_RD2));
     pipeline_reg #(.WIDTH(32)) imm_reg  (.clk(clk), .reset(reset), .d(i_Imm),       .q(o_Imm));
     pipeline_reg #(.WIDTH(5))  rd_addr_reg (.clk(clk), .reset(reset), .d(i_rd),        .q(o_rd));
+    pipeline_reg #(.WIDTH(3))  DMType_reg (.clk(clk), .reset(reset), .d(i_DMType),        .q(o_DMType));
     
     // Control Path Registers
     pipeline_reg #(.WIDTH(1)) regwrite_reg (.clk(clk), .reset(reset), .d(i_RegWrite), .q(o_RegWrite));

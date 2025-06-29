@@ -12,15 +12,18 @@ module sccomp_tb();
    );
 
   	integer foutput;
+    integer mem_dump_file; // Declare a file handle
   	integer counter = 0;
     integer counter2 = 0;
+    integer i;
    
    initial begin
-      $readmemh( "riscv32_sim6.dat" , U_SCCOMP.U_IM.ROM,0,255); // load instructions into instruction memory 这里改为0 到 14
+      $readmemh( "riscv32_sim1.dat" , U_SCCOMP.U_IM.ROM,0,255); // load instructions into instruction memory 这里改为0 到 14
       $dumpfile("sccomp.vcd");
       $dumpvars;
      $monitor("PC = 0x%8X, instr = 0x%8X", U_SCCOMP.PC, U_SCCOMP.instr); // used for debug
       foutput = $fopen("results.txt");
+      mem_dump_file = $fopen("dmem_dump.txt", "w");
       clk = 1;
       rstn = 1;
       #5 ;
@@ -51,11 +54,12 @@ module sccomp_tb();
           $fdisplay(foutput, "rf24-27:\t %h %h %h %h", U_SCCOMP.U_SCPU.U_RF.rf[24], U_SCCOMP.U_SCPU.U_RF.rf[25], U_SCCOMP.U_SCPU.U_RF.rf[26], U_SCCOMP.U_SCPU.U_RF.rf[27]);
           $fdisplay(foutput, "rf28-31:\t %h %h %h %h", U_SCCOMP.U_SCPU.U_RF.rf[28], U_SCCOMP.U_SCPU.U_RF.rf[29], U_SCCOMP.U_SCPU.U_RF.rf[30], U_SCCOMP.U_SCPU.U_RF.rf[31]);
        //   $fdisplay(foutput, "hi lo:\t %h %h", U_SCCOMP.U_SCPU.U_RF.rf.hi, U_SCCOMP.U_SCPU.U_RF.rf.lo);
-         // $fclose(foutput);
-         
+  for ( i = 0; i < 128; i = i + 1) begin // 128 is the depth of your dmem
+    $fdisplay(mem_dump_file, "0x%2h: 0x%8h", i, U_SCCOMP.U_SCPU.U_DM.dmem[i]);
+end
+          $fclose(mem_dump_file);
          $fclose(foutput);
           $finish;
-         
           end
         end
         else begin 
@@ -82,8 +86,8 @@ module sccomp_tb();
         end
         else begin
           counter = counter + 1;
-          $display("pc: %h", U_SCCOMP.PC);
-          $display("instr: %h", U_SCCOMP.instr);
+         // $display("pc: %h", U_SCCOMP.PC);
+       //   $display("instr: %h", U_SCCOMP.instr);
         end
       end
     end

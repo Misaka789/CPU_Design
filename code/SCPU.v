@@ -12,11 +12,12 @@ module SCPU(
     output    mem_w,
     output [31:0] PC_out,
     output [31:0] Addr_out,
-    output [31:0] Data_out,
+    output [31:0] Data_out,   // 写入dm 的数据 根据DMType 的类型来决定其数值
 
     // Debug Ports
     input  [4:0] reg_sel,
-    output [31:0] reg_data
+    output [31:0] reg_data,
+    output [2:0]  dm_type
 );
 
     // =========================================================================
@@ -103,11 +104,12 @@ module SCPU(
     wire [5:0] ID_EXTOp;
     wire [2:0] ID_DMType;
     wire [1:0] ID_GPRSel;
- 
+    wire [2:0] EX_DMType;
+    wire [2:0] MEM_DMType;
 
     ctrl U_ctrl(
         .Op(ID_inst[6:0]), .Funct7(ID_inst[31:25]), .Funct3(ID_inst[14:12]), .Zero(ID_Zero), // Zero connected later
-        .RegWrite(ID_RegWrite), .MemWrite(ID_MemWrite), .MemRead(ID_MemRead), .NPCOp(ID_NPCOp),// .DMType(ID_DmType),
+        .RegWrite(ID_RegWrite), .MemWrite(ID_MemWrite), .MemRead(ID_MemRead), .NPCOp(ID_NPCOp), .DMType(ID_DMType),
         .WDSel(ID_WDSel), .ALUSrc(ID_ALUSrc), .ALUOp(ID_ALUOp), .EXTOp(ID_EXTOp), .GPRSel(ID_GPRSel)
     );
 
@@ -137,10 +139,10 @@ module SCPU(
         .clk(clk), .reset(reset),
         .i_PC_plus_4(ID_PC_plus_4), .i_RD1(ID_RD1), .i_RD2(ID_RD2), .i_Imm(ID_Imm), .i_rd(ID_rd),
         .i_RegWrite(ID_RegWrite), .i_MemWrite(ID_MemWrite), .i_MemRead(ID_MemRead),
-        .i_WDSel(ID_WDSel), .i_ALUSrc(ID_ALUSrc), .i_ALUOp(ID_ALUOp), .i_NPCOp(ID_NPCOp), .i_PC(ID_PC),
+        .i_WDSel(ID_WDSel), .i_ALUSrc(ID_ALUSrc), .i_ALUOp(ID_ALUOp), .i_NPCOp(ID_NPCOp), .i_PC(ID_PC), .i_DMType(ID_DMType),
         .o_PC_plus_4(EX_PC_plus_4), .o_RD1(EX_RD1), .o_RD2(EX_RD2), .o_Imm(EX_Imm), .o_rd(EX_rd),
         .o_RegWrite(EX_RegWrite), .o_MemWrite(EX_MemWrite), .o_MemRead(EX_MemRead),
-        .o_WDSel(EX_WDSel), .o_ALUSrc(EX_ALUSrc), .o_ALUOp(EX_ALUOp),.o_NPCOp(EX_NPCOp),.o_PC(EX_PC)
+        .o_WDSel(EX_WDSel), .o_ALUSrc(EX_ALUSrc), .o_ALUOp(EX_ALUOp),.o_NPCOp(EX_NPCOp),.o_PC(EX_PC), .o_DMType(EX_DMType)
     );
     
     //
@@ -150,7 +152,7 @@ module SCPU(
     wire        EX_Zero;
 
     assign EX_ALU_in_B = EX_ALUSrc ? EX_Imm : EX_RD2; // Forwarding will modify this
-    alu U_alu(.A(EX_RD1), .B(EX_ALU_in_B), .ALUOp(EX_ALUOp), .C(EX_ALU_out), .Zero(EX_Zero));
+    alu U_alu(.A(EX_RD1), .B(EX_ALU_in_B), .ALUOp(EX_ALUOp), .C(EX_ALU_out), .Zero(EX_Zero) , .PC(EX_PC));
 
     // 
     // Pipeline Register: EX/MEM
@@ -158,9 +160,9 @@ module SCPU(
     EX_MEM_Register U_EX_MEM_REG (
         .clk(clk), .reset(reset),
         .i_ALU_out(EX_ALU_out), .i_Store_Data(EX_RD2), .i_rd(EX_rd), .i_PC_plus_4(EX_PC_plus_4),
-        .i_RegWrite(EX_RegWrite), .i_MemWrite(EX_MemWrite), .i_MemRead(EX_MemRead), .i_WDSel(EX_WDSel),
+        .i_RegWrite(EX_RegWrite), .i_MemWrite(EX_MemWrite), .i_MemRead(EX_MemRead), .i_WDSel(EX_WDSel), .i_DMType(EX_DMType),
         .o_ALU_out(MEM_ALU_out), .o_Store_Data(MEM_Store_Data), .o_rd(MEM_rd), .o_PC_plus_4(MEM_PC_plus_4),
-        .o_RegWrite(MEM_RegWrite), .o_MemWrite(MEM_MemWrite), .o_MemRead(MEM_MemRead), .o_WDSel(MEM_WDSel)
+        .o_RegWrite(MEM_RegWrite), .o_MemWrite(MEM_MemWrite), .o_MemRead(MEM_MemRead), .o_WDSel(MEM_WDSel) , .o_DMType(MEM_DMType)
     );
     
     // 
@@ -169,6 +171,9 @@ module SCPU(
     assign Addr_out = MEM_ALU_out;
     assign Data_out = MEM_Store_Data;
     assign mem_w    = MEM_MemWrite;
+    assign dm_type = MEM_DMType;
+    // 根据DMType 来选择需要写入dm 的数据
+
 
     // 
     // Pipeline Register: MEM/WB

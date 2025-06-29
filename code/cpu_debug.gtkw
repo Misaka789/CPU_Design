@@ -1,21 +1,22 @@
 [*]
 [*] GTKWave Analyzer v3.3.100 (w)1999-2019 BSI
-[*] Sat Jun 28 05:14:31 2025
+[*] Sun Jun 29 06:34:36 2025
 [*]
 [dumpfile] "D:\User\DeskTop\cpu_design\code-sc\code\sccomp.vcd"
-[dumpfile_mtime] "Sat Jun 28 04:57:13 2025"
-[dumpfile_size] 1217359
+[dumpfile_mtime] "Sun Jun 29 06:33:47 2025"
+[dumpfile_size] 53759
 [savefile] "D:\User\DeskTop\cpu_design\code-sc\code\cpu_debug.gtkw"
-[timestart] 3994
-[size] 1000 634
-[pos] 881 202
-*-8.000000 4443 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[timestart] 987
+[size] 1536 889
+[pos] -165 -165
+*-8.000000 1238 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] sccomp_tb.
 [treeopen] sccomp_tb.U_SCCOMP.
+[treeopen] sccomp_tb.U_SCCOMP.U_SCPU.
 [sst_width] 197
-[signals_width] 217
+[signals_width] 273
 [sst_expanded] 1
-[sst_vpaned_height] 165
+[sst_vpaned_height] 256
 @22
 sccomp_tb.U_SCCOMP.U_SCPU.PC_out[31:0]
 @c00022
@@ -78,5 +79,25 @@ sccomp_tb.U_SCCOMP.U_SCPU.ID_RD2[31:0]
 sccomp_tb.U_SCCOMP.U_SCPU.ID_PC[31:0]
 @28
 sccomp_tb.U_SCCOMP.U_SCPU.ID_RegWrite
+@22
+sccomp_tb.U_SCCOMP.U_SCPU.WB_Write_Data[31:0]
+@28
+sccomp_tb.U_SCCOMP.U_SCPU.ID_MemWrite
+sccomp_tb.U_SCCOMP.U_SCPU.ID_MemRead
+sccomp_tb.U_SCCOMP.U_SCPU.ID_DMType[2:0]
+@22
+sccomp_tb.U_SCCOMP.U_DM.din[31:0]
+sccomp_tb.U_SCCOMP.U_DM.addr[8:2]
+sccomp_tb.U_SCCOMP.U_DM.word_addr[6:0]
+@28
+sccomp_tb.U_SCCOMP.U_DM.DMType[2:0]
+@22
+sccomp_tb.U_SCCOMP.U_DM.din[31:0]
+sccomp_tb.U_SCCOMP.U_DM.bwe[3:0]
+@28
+sccomp_tb.U_SCCOMP.U_DM.DMWr
+sccomp_tb.U_SCCOMP.U_DM.byte_offset[1:0]
+@22
+sccomp_tb.U_SCCOMP.U_DM.dout[31:0]
 [pattern_trace] 1
 [pattern_trace] 0
