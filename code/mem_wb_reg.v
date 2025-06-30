@@ -16,7 +16,7 @@ module MEM_WB_Register (
     input        i_valid,
     input        flush,
     output       o_valid,
-    
+
 
     // --- Outputs to WB Stage ---
     output [31:0] o_Read_Data,

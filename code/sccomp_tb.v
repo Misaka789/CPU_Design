@@ -34,7 +34,7 @@ assign debug_rf_probe_5 = U_SCCOMP.U_SCPU.U_RF.rf[5];
 wire test = 1'b1;
    
    initial begin
-      $readmemh( "control_test.dat" , U_SCCOMP.U_IM.ROM,0,255); // load instructions into instruction memory 这里改为0 到 14
+      $readmemh( "riscv32_forwarding_sim2.dat" , U_SCCOMP.U_IM.ROM,0,255); // load instructions into instruction memory 这里改为0 到 14
       $dumpfile("sccomp.vcd");
       $dumpvars(0, U_SCCOMP);
      $monitor("PC = 0x%8X, instr = 0x%8X", U_SCCOMP.PC, U_SCCOMP.instr); // used for debug

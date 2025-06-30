@@ -1,22 +1,22 @@
 [*]
 [*] GTKWave Analyzer v3.3.100 (w)1999-2019 BSI
-[*] Mon Jun 30 04:25:11 2025
+[*] Mon Jun 30 11:39:29 2025
 [*]
 [dumpfile] "D:\User\DeskTop\cpu_design\code-sc\code\sccomp.vcd"
-[dumpfile_mtime] "Mon Jun 30 04:07:57 2025"
-[dumpfile_size] 45842
+[dumpfile_mtime] "Mon Jun 30 11:21:11 2025"
+[dumpfile_size] 87106
 [savefile] "D:\User\DeskTop\cpu_design\code-sc\code\cpu_debug.gtkw"
-[timestart] 0
-[size] 1536 889
-[pos] 2 68
-*-8.000000 637 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[timestart] 885
+[size] 1518 871
+[pos] -1 -1
+*-8.000000 1371 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] sccomp_tb.
 [treeopen] sccomp_tb.U_SCCOMP.
 [treeopen] sccomp_tb.U_SCCOMP.U_SCPU.
 [sst_width] 274
 [signals_width] 273
 [sst_expanded] 1
-[sst_vpaned_height] 332
+[sst_vpaned_height] 324
 @22
 sccomp_tb.U_SCCOMP.U_SCPU.PC_out[31:0]
 @c00022
@@ -73,6 +73,7 @@ sccomp_tb.U_SCCOMP.U_SCPU.ID_NPCOp[2:0]
 -group_end
 @22
 sccomp_tb.U_SCCOMP.U_SCPU.ID_rd[4:0]
+sccomp_tb.U_SCCOMP.U_SCPU.ID_rs1[4:0]
 sccomp_tb.U_SCCOMP.U_SCPU.ID_rs2[4:0]
 sccomp_tb.U_SCCOMP.U_SCPU.ID_RD1[31:0]
 sccomp_tb.U_SCCOMP.U_SCPU.ID_RD2[31:0]
@@ -109,9 +110,6 @@ sccomp_tb.U_SCCOMP.U_SCPU.id_ex_flush
 sccomp_tb.U_SCCOMP.U_SCPU.if_valid
 sccomp_tb.U_SCCOMP.U_SCPU.if_id_valid
 sccomp_tb.U_SCCOMP.U_SCPU.mem_wb_valid
-@22
-sccomp_tb.U_SCCOMP.U_SCPU.U_IF_ID_REG.o_inst[31:0]
-@28
 sccomp_tb.U_SCCOMP.U_SCPU.MEM_RegWrite
 @22
 sccomp_tb.U_SCCOMP.U_SCPU.MEM_rd[4:0]
@@ -133,7 +131,29 @@ sccomp_tb.U_SCCOMP.U_SCPU.mem_wb_valid
 sccomp_tb.U_SCCOMP.U_SCPU.U_RF.RFWr
 @24
 sccomp_tb.U_SCCOMP.U_SCPU.U_RF.A3[4:0]
-@23
+@22
 sccomp_tb.U_SCCOMP.U_SCPU.U_RF.WD[31:0]
+sccomp_tb.U_SCCOMP.U_SCPU.ID_RD1_final[31:0]
+sccomp_tb.U_SCCOMP.U_SCPU.ID_RD2_final[31:0]
+@28
+sccomp_tb.U_SCCOMP.U_SCPU.ForwardA[1:0]
+sccomp_tb.U_SCCOMP.U_SCPU.ForwardB[1:0]
+@22
+sccomp_tb.U_SCCOMP.U_SCPU.EX_ALU_out[31:0]
+@28
+sccomp_tb.U_SCCOMP.U_SCPU.pipeline_stall
+@22
+sccomp_tb.U_SCCOMP.U_DM.dout[31:0]
+sccomp_tb.U_SCCOMP.U_SCPU.Data_in[31:0]
+sccomp_tb.U_SCCOMP.U_DM.addr[31:0]
+sccomp_tb.U_SCCOMP.U_DM.bwe[3:0]
+@28
+sccomp_tb.U_SCCOMP.U_DM.byte_offset[1:0]
+sccomp_tb.U_SCCOMP.U_DM.DMType[2:0]
+@22
+sccomp_tb.U_SCCOMP.U_SCPU.U_RF.WD[31:0]
+sccomp_tb.U_SCCOMP.U_SCPU.U_RF.A3[4:0]
+@29
+sccomp_tb.U_SCCOMP.U_SCPU.U_RF.RFWr
 [pattern_trace] 1
 [pattern_trace] 0
