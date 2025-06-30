@@ -16,11 +16,27 @@ module sccomp_tb();
   	integer counter = 0;
     integer counter2 = 0;
     integer i;
+
+
+  //  wire [31:0] debug_rf_probe [0:31];
+
+    // 使用 generate 块和 assign 语句来连接
+    
+wire [31:0] debug_rf_probe_0, debug_rf_probe_1, debug_rf_probe_2, debug_rf_probe_3, debug_rf_probe_4, debug_rf_probe_5;
+// (先只写几个，不用写满32个，用于测试)
+
+assign debug_rf_probe_0 = U_SCCOMP.U_SCPU.U_RF.rf[0];
+assign debug_rf_probe_1 = U_SCCOMP.U_SCPU.U_RF.rf[1];
+assign debug_rf_probe_2 = U_SCCOMP.U_SCPU.U_RF.rf[2];
+assign debug_rf_probe_3 = U_SCCOMP.U_SCPU.U_RF.rf[3];
+assign debug_rf_probe_4 = U_SCCOMP.U_SCPU.U_RF.rf[4];
+assign debug_rf_probe_5 = U_SCCOMP.U_SCPU.U_RF.rf[5];
+wire test = 1'b1;
    
    initial begin
-      $readmemh( "riscv32_sim1.dat" , U_SCCOMP.U_IM.ROM,0,255); // load instructions into instruction memory 这里改为0 到 14
+      $readmemh( "control_test.dat" , U_SCCOMP.U_IM.ROM,0,255); // load instructions into instruction memory 这里改为0 到 14
       $dumpfile("sccomp.vcd");
-      $dumpvars;
+      $dumpvars(0, U_SCCOMP);
      $monitor("PC = 0x%8X, instr = 0x%8X", U_SCCOMP.PC, U_SCCOMP.instr); // used for debug
       foutput = $fopen("results.txt");
       mem_dump_file = $fopen("dmem_dump.txt", "w");

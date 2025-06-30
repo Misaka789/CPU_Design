@@ -21,6 +21,9 @@ module ID_EX_Register (
     input [2:0]  i_NPCOp,
     input [31:0] i_PC,
     input [2:0]  i_DMType,
+    input        i_valid,
+    input        flush,
+    output       o_valid,
 
     // --- Outputs to EX Stage ---
     output [31:0] o_PC_plus_4,
@@ -39,6 +42,18 @@ module ID_EX_Register (
     output [31:0] o_PC,
     output [2:0]  o_DMType
 );
+
+        reg valid_reg ;
+        assign o_valid = valid_reg;
+        always@(posedge clk or posedge reset) begin 
+            if(reset) begin 
+                valid_reg <= 1'b0;
+            end
+            else if (flush) begin 
+                valid_reg <= 1'b0;
+            end else begin valid_reg <= i_valid;end
+        end
+
 
     // Data Path Registers
     pipeline_reg #(.WIDTH(32)) pc_reg   (.clk(clk), .reset(reset), .d(i_PC_plus_4), .q(o_PC_plus_4));

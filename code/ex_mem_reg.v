@@ -16,6 +16,9 @@ module EX_MEM_Register (
     input        i_MemRead,
     input [1:0]  i_WDSel,
     input [2:0]  i_DMType,
+    input        i_valid,
+    input        flush,
+    output       o_valid,
 
     // --- Outputs to MEM Stage ---
     output [31:0] o_ALU_out,
@@ -29,6 +32,17 @@ module EX_MEM_Register (
     output [1:0]  o_WDSel,
     output [2:0]  o_DMType
 );
+
+        reg valid_reg ;
+        assign o_valid = valid_reg;
+        always@(posedge clk or posedge reset) begin 
+            if(reset) begin 
+                valid_reg <= 1'b0;
+            end
+            else if (flush) begin 
+                valid_reg <= 1'b0;
+            end else begin valid_reg <= i_valid;end
+        end
 
     // Data Path Registers
     pipeline_reg #(.WIDTH(32)) alu_out_reg  (.clk(clk), .reset(reset), .d(i_ALU_out),    .q(o_ALU_out));

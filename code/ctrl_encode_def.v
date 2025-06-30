@@ -52,3 +52,7 @@
 `define dm_byte 3'b011
 `define dm_byte_unsigned 3'b100
 
+`define from_ex 2'b10
+`define from_mem 2'b01
+`define from_wb 2'b11
+`define from_if 2'b00

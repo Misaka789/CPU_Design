@@ -1,22 +1,22 @@
 [*]
 [*] GTKWave Analyzer v3.3.100 (w)1999-2019 BSI
-[*] Sun Jun 29 07:26:06 2025
+[*] Mon Jun 30 04:25:11 2025
 [*]
 [dumpfile] "D:\User\DeskTop\cpu_design\code-sc\code\sccomp.vcd"
-[dumpfile_mtime] "Sun Jun 29 07:20:17 2025"
-[dumpfile_size] 58925
+[dumpfile_mtime] "Mon Jun 30 04:07:57 2025"
+[dumpfile_size] 45842
 [savefile] "D:\User\DeskTop\cpu_design\code-sc\code\cpu_debug.gtkw"
-[timestart] 1548
+[timestart] 0
 [size] 1536 889
-[pos] -1 -1
-*-8.000000 2313 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[pos] 2 68
+*-8.000000 637 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] sccomp_tb.
 [treeopen] sccomp_tb.U_SCCOMP.
 [treeopen] sccomp_tb.U_SCCOMP.U_SCPU.
-[sst_width] 197
+[sst_width] 274
 [signals_width] 273
 [sst_expanded] 1
-[sst_vpaned_height] 256
+[sst_vpaned_height] 332
 @22
 sccomp_tb.U_SCCOMP.U_SCPU.PC_out[31:0]
 @c00022
@@ -101,5 +101,39 @@ sccomp_tb.U_SCCOMP.U_DM.dout[31:0]
 sccomp_tb.U_SCCOMP.U_DM.dout[31:0]
 sccomp_tb.U_SCCOMP.U_DM.din[31:0]
 sccomp_tb.U_SCCOMP.U_SCPU.EX_ALU_out[31:0]
+@28
+sccomp_tb.U_SCCOMP.U_SCPU.if_valid
+sccomp_tb.U_SCCOMP.U_SCPU.if_id_flush
+sccomp_tb.U_SCCOMP.U_SCPU.id_ex_valid
+sccomp_tb.U_SCCOMP.U_SCPU.id_ex_flush
+sccomp_tb.U_SCCOMP.U_SCPU.if_valid
+sccomp_tb.U_SCCOMP.U_SCPU.if_id_valid
+sccomp_tb.U_SCCOMP.U_SCPU.mem_wb_valid
+@22
+sccomp_tb.U_SCCOMP.U_SCPU.U_IF_ID_REG.o_inst[31:0]
+@28
+sccomp_tb.U_SCCOMP.U_SCPU.MEM_RegWrite
+@22
+sccomp_tb.U_SCCOMP.U_SCPU.MEM_rd[4:0]
+@28
+sccomp_tb.U_SCCOMP.U_SCPU.mem_wb_valid
+@22
+sccomp_tb.U_SCCOMP.U_SCPU.WB_Write_Data[31:0]
+sccomp_tb.U_SCCOMP.U_SCPU.WB_rd[4:0]
+@28
+sccomp_tb.U_SCCOMP.U_SCPU.WB_RegWrite
+sccomp_tb.U_SCCOMP.U_SCPU.ex_mem_valid
+sccomp_tb.U_SCCOMP.U_SCPU.mem_wb_valid
+sccomp_tb.U_SCCOMP.U_SCPU.WB_RegWrite_final
+@22
+sccomp_tb.U_SCCOMP.U_SCPU.WB_rd[4:0]
+@28
+sccomp_tb.U_SCCOMP.U_SCPU.WB_RegWrite
+sccomp_tb.U_SCCOMP.U_SCPU.mem_wb_valid
+sccomp_tb.U_SCCOMP.U_SCPU.U_RF.RFWr
+@24
+sccomp_tb.U_SCCOMP.U_SCPU.U_RF.A3[4:0]
+@23
+sccomp_tb.U_SCCOMP.U_SCPU.U_RF.WD[31:0]
 [pattern_trace] 1
 [pattern_trace] 0

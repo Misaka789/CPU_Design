@@ -13,6 +13,10 @@ module MEM_WB_Register (
     // Control Signals
     input        i_RegWrite,
     input [1:0]  i_WDSel,
+    input        i_valid,
+    input        flush,
+    output       o_valid,
+    
 
     // --- Outputs to WB Stage ---
     output [31:0] o_Read_Data,
@@ -23,6 +27,18 @@ module MEM_WB_Register (
     output        o_RegWrite,
     output [1:0]  o_WDSel
 );
+
+
+        reg valid_reg ;
+        assign o_valid = valid_reg;
+        always@(posedge clk or posedge reset) begin 
+            if(reset) begin 
+                valid_reg <= 1'b0;
+            end
+            else if (flush) begin 
+                valid_reg <= 1'b0;
+            end else begin valid_reg <= i_valid;end
+        end
 
     // Data Path Registers
     pipeline_reg #(.WIDTH(32)) read_data_reg (.clk(clk), .reset(reset), .d(i_Read_Data), .q(o_Read_Data));
