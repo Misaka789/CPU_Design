@@ -23,15 +23,6 @@ module dm(clk, DMWr, addr, din, dout,DMType);
     (DMType == `dm_byte)     ? (4'b0001 << byte_offset) :
                               4'b0000; // 其他类型(如load)不写入
 
-// 2. 对齐写入数据 (组合逻辑)
-// 一个健壮的技巧是复制字节/半字，然后让BWE来选择
-/* assign data_to_write = 
-    (DMType == `dm_byte)     ? {4{din[7:0]}} :      // {d,d,d,d}
-    (DMType == `dm_halfword) ? {2{din[15:0]}} :   // {d,d}
-                              din;                 // 默认是整个字 */
-
-// 让debug_dmem_data的值等于当前地址所指向的dmem单元的值
-
 // --- 时序写入逻辑 (增加了$display) ---
 always @(posedge clk) begin
     // 只在DMWr为高电平时执行
@@ -73,12 +64,6 @@ always @(posedge clk) begin
             end
         endcase
         
-        // --- 如何看到写入后的值 (方法二) ---
-        // 注意：这会产生大量的日志信息
-        // 使用 $strobe 而不是 $display，它会在当前时间步的所有事件都完成后才执行
-        // 所以它能看到 dmem 被非阻塞赋值更新后的值。
-      //  $strobe("@%0t: [DM Check] After Write, dmem[0x%h] is now: 0x%h", $time, word_addr, dmem[word_addr]);
-
     end
 end
 
@@ -122,55 +107,4 @@ case (DMType)
 
  
 endmodule    
-         /* `dm_halfword_unsigned : begin 
-            dmem[word_addr][15:0] <= $unsigned (din[15:0]);
-         end
-         `dm_byte_unsigned : begin 
-            dmem[word_addr][7:0] <= $unsigned (din[7:0]);
-         end */
-
-/* 
-            wire [4:0] byte_block = low_addr + 7;
-   wire [4:0]halfword_block = low_addr + 15;
-   always @(posedge clk)
-      if (DMWr) begin
-         //dmem[addr[8:2]] <= din;
-         case (DMType) 
-         `dm_byte : begin 
-            dmem[word_addr][byte_block:low_addr] <= din[7:0];
-            $display("dmem[0x%8X] = 0x%8X, ", word_addr << 2, din[7:0]); 
-            $display("finished :dmem[0x%8x] = 0x%8x",word_addr << 2 , dmem[word_addr]);
-         end
-         `dm_word : begin
-            dmem[word_addr] <= din;
-            $display("dmem[0x%8X] = 0x%8X, ", word_addr << 2, din); 
-            $display("finished :dmem[0x%8x] = 0x%8x",word_addr << 2 , dmem[word_addr]);
-         end
-         `dm_halfword : begin 
-            dmem[word_addr][halfword_block:low_addr] <= din[15:0];
-            $display("dmem[0x%8X] = 0x%8X, ", word_addr << 2, din[15:0]); 
-            $display("finished :dmem[0x%8x] = 0x%8x",word_addr << 2 , dmem[word_addr]);
-         end
-
-         default : begin  
-            dmem[word_addr] <= 32'hdeadbeef;
-         end
-         endcase
-       // $display("dmem[0x%8X] = 0x%8X,", addr << 2, din); 
-      end
-    */
-
-
-    
-
-
-  // assign dout = dmem[addr[8:2]];
-/*    assign dout = (DMType == `dm_byte) ? dmem[word_addr][7:0] :
-                  (DMType == `dm_halfword) ? dmem[word_addr][15:0] :
-                  (DMType ==  `dm_word) ? dmem[word_addr] : 
-                  (DMType == `dm_halfword_unsigned ) ? $unsigned (dmem[word_addr][15:0]) :
-                  (DMType == `dm_byte_unsigned) ? $unsigned (dmem[word_addr][7:0]) :
-                  32'hdeadbeaf;
-
  
-    */

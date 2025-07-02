@@ -4,6 +4,8 @@
                input         RFWr, 
                input  [4:0]  A1, A2, A3, 
                input  [31:0] WD, 
+               input [4:0] reg_sel,
+               output[31:0] reg_data,
                output [31:0] RD1, RD2);
 
   reg [31:0] rf[31:0];
@@ -24,6 +26,6 @@
 
   assign RD1 = (A1 != 0) ? rf[A1] : 0;
   assign RD2 = (A2 != 0) ? rf[A2] : 0;
-  //assign reg_data = (reg_sel != 0) ? rf[reg_sel] : 0; 
+  assign reg_data = (reg_sel != 0) ? rf[reg_sel] : 0; 
 
 endmodule 

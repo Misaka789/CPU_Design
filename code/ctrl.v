@@ -55,16 +55,16 @@ module ctrl(Op, Funct7, Funct3, Zero,
 
 
 
-// 开始补充缺失的指令 
+// �?始补充缺失的指令 
  // u format
  wire utype = ~Op[6]& Op[5]& Op[4]& ~Op[3]& Op[2]& Op[1]& Op[0]; // lui 0110111
  wire i_auipc = Op == 7'b0010111;
 // 左移右移都是rtype 指令
  wire i_srli = itype_r& ~Funct7[6]& ~Funct7[5]&~Funct7[4]&~Funct7[3]&~Funct7[2]&~Funct7[1]&~Funct7[0]& Funct3[2]&~Funct3[1]& Funct3[0]; 
-// funct3 101 funct7 全0
+// funct3 101 funct7 �?0
 
  wire i_slli = itype_r& ~Funct7[6]&~Funct7[5]&~Funct7[4]&~Funct7[3]&~Funct7[2]&~Funct7[1]&~Funct7[0]& ~Funct3[2]&~Funct3[1]& Funct3[0];
- // funct3 001 funct7 全0
+ // funct3 001 funct7 �?0
 
  wire i_sll =  rtype &~Funct7[6]&~Funct7[5]&~Funct7[4]&~Funct7[3]&~Funct7[2]&~Funct7[1]&~Funct7[0]&~Funct3[2]&~Funct3[1]& Funct3[0];
  //0000000 001
@@ -89,13 +89,13 @@ wire i_sltu = rtype  &~Funct7[6]&~Funct7[5]&~Funct7[4]&~Funct7[3]&~Funct7[2]&~Fu
 wire i_slti = itype_r & ~Funct3[2]& Funct3[1]&~Funct3[0]; //010
 wire i_sltiu = itype_r & ~Funct3[2]& Funct3[1]& Funct3[0]; //011
 
-// sb条件跳转指令的实现
+// sb条件跳转指令的实�?
 wire i_bne = sbtype & (Funct3 == 3'b001);
 wire i_blt = sbtype & (Funct3 == 3'b100);
 wire i_bltu = sbtype & (Funct3 == 3'b110);
 wire i_bgeu = sbtype & (Funct3 == 3'b111);
 
-// load store 指令的实现
+// load store 指令的实�?
 wire i_sb = stype & (Funct3 == 3'b000);
 wire i_sh = stype & (Funct3 == 3'b001);
 
@@ -105,12 +105,12 @@ wire i_lw = itype_l & (Funct3 == 3'b010);
 wire i_lbu = itype_l & (Funct3 == 3'b100);
 wire i_lhu = itype_l & (Funct3 == 3'b101);
 
-// 缺失的指令补充完毕
+// 缺失的指令补充完�?
 
   // generate control signals
   assign RegWrite   = rtype | itype_r | i_jalr | i_jal | utype | itype_l | i_auipc; // register write
   assign MemWrite   = stype;                           // memory write
-  assign ALUSrc     = itype_r | stype | i_jal | i_jalr | utype | i_auipc | itype_l;   // ALU B is from instruction immediate 1 : 立即数 0 : RD2
+  assign ALUSrc     = itype_r | stype | i_jal | i_jalr | utype | i_auipc | itype_l;   // ALU B is from instruction immediate 1 : 立即�? 0 : RD2
   assign MemRead    =  itype_l ; //i_lb | i_lh | i_lw | i_lbu | i_lhu;      //~Op[6]& ~Op[5]& ~Op[4]& ~Op[3]& ~Op[2]& Op[1]& Op[0];
   // signed extension
   // EXT_CTRL_ITYPE_SHAMT 6'b100000
@@ -120,9 +120,9 @@ wire i_lhu = itype_l & (Funct3 == 3'b101);
   // EXT_CTRL_UTYPE	      6'b000010
   // EXT_CTRL_JTYPE	      6'b000001
   // 为立即数移位指令设计
-  assign EXTOp[5] = i_slli | i_srai | i_srli; // 或者 itype_r && (Funct3 == 3'b001 || Funct3 == 3'b101);
+  assign EXTOp[5] = i_slli | i_srai | i_srli; // 或�?? itype_r && (Funct3 == 3'b001 || Funct3 == 3'b101);
   //assign EXTOp[4]    =  i_ori | i_andi | i_jalr;
-  assign EXTOp[4]    = itype_r | i_ori | i_xori | itype_l;  
+  assign EXTOp[4]    = (itype_r | i_ori | i_xori | itype_l | i_jalr) && !EXTOp[5];     // 这里尤其�?要注�? 因为逻辑错误我排查了好久
   assign EXTOp[3]    = stype; 
   assign EXTOp[2]    = sbtype; 
   assign EXTOp[1]    = utype;   
@@ -139,7 +139,7 @@ wire i_lhu = itype_l & (Funct3 == 3'b101);
   // NPC_JUMP    3'b010
   // NPC_JALR	3'b100
   assign NPCOp[0] = sbtype & Zero;
-  assign NPCOp[1] = i_jal;    // 无条件跳转
+  assign NPCOp[1] = i_jal;    // 无条件跳�?
 	assign NPCOp[2]=  i_jalr;
   
 
@@ -152,12 +152,12 @@ wire i_lhu = itype_l & (Funct3 == 3'b101);
   assign ALUOp[3] = i_and|i_ori|i_or | i_sll | i_slli | i_xor | i_xori | i_slt | i_slti | i_sltu | i_sltiu;    
 	assign ALUOp[4] = i_srli | i_srl | i_sra | i_srai;
 
-// 后续需要添加DMType等指令类型
+// 后续�?要添加DMType等指令类�?
 
 assign DMType = (i_sb | i_lb) ? `dm_byte :
                 (i_sw | i_lw) ? `dm_word :
                 (i_sh | i_lh) ? `dm_halfword: 
                 i_lbu ? `dm_byte_unsigned : 
                 i_lhu ? `dm_halfword_unsigned :
-                3'b000;  // 默认值
+                3'b000;  // 默认�?
 endmodule
