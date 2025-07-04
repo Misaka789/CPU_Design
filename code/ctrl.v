@@ -38,6 +38,7 @@ module ctrl(Op, Funct7, Funct3, Zero,
     wire itype_r  = ~Op[6]&~Op[5]&Op[4]&~Op[3]&~Op[2]&Op[1]&Op[0]; //0010011
     wire i_addi  =  itype_r& ~Funct3[2]& ~Funct3[1]& ~Funct3[0]; // addi 000
     wire i_ori  =  itype_r& Funct3[2]& Funct3[1]&~Funct3[0]; // ori 110
+    wire i_andi =  itype_r & (Funct3 == 3'b111); 
 	
  //jalr
 	wire i_jalr =Op[6]&Op[5]&~Op[4]&~Op[3]&Op[2]&Op[1]&Op[0];//jalr 1100111
@@ -145,11 +146,11 @@ wire i_lhu = itype_l & (Funct3 == 3'b101);
 
  
 	assign ALUOp[0] = itype_l|stype|i_addi|i_ori|i_add|i_or | utype | i_sll | i_slli | i_sra | i_srai | i_sltu | i_sltiu;
-	assign ALUOp[1] = i_jalr|itype_l|stype|i_addi|i_add|i_and | i_sll | i_slli | i_slt | i_slti | i_sltu | i_sltiu| i_auipc;
+	assign ALUOp[1] = i_jalr|itype_l|stype|i_addi|i_add|i_and | i_sll | i_slli | i_slt | i_slti | i_sltu | i_sltiu| i_auipc | i_andi;
 	//assign ALUOp[2] = i_andi|i_and|i_ori|i_or|i_beq|i_sub;
 	//assign ALUOp[3] = i_andi|i_and|i_ori|i_or;
-	assign ALUOp[2] = i_and|i_ori|i_or|i_beq|i_sub | i_sll | i_slli | i_xor | i_xori ;
-  assign ALUOp[3] = i_and|i_ori|i_or | i_sll | i_slli | i_xor | i_xori | i_slt | i_slti | i_sltu | i_sltiu;    
+	assign ALUOp[2] = i_and|i_ori|i_or|i_beq|i_sub | i_sll | i_slli | i_xor | i_xori | i_andi;
+  assign ALUOp[3] = i_and|i_ori|i_or | i_sll | i_slli | i_xor | i_xori | i_slt | i_slti | i_sltu | i_sltiu | i_andi;    
 	assign ALUOp[4] = i_srli | i_srl | i_sra | i_srai;
 
 // 后续�?要添加DMType等指令类�?

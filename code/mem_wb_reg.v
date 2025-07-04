@@ -1,4 +1,4 @@
-// 文件名: MEM_WB_Register.v
+// 文件�?: MEM_WB_Register.v
 //`include "pipeline_reg.v"
 
 module MEM_WB_Register (
@@ -29,7 +29,7 @@ module MEM_WB_Register (
 );
 
 
-        reg valid_reg ;
+        reg valid_reg = 1'b0 ;
         assign o_valid = valid_reg;
         always@(posedge clk or posedge reset) begin 
             if(reset) begin 

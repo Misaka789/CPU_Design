@@ -1,4 +1,4 @@
-// 文件名: EX_MEM_Register.v
+// 文件�?: EX_MEM_Register.v
 //`include "pipeline_reg.v"
 
 module EX_MEM_Register (
@@ -33,7 +33,7 @@ module EX_MEM_Register (
     output [2:0]  o_DMType
 );
 
-        reg valid_reg ;
+        reg valid_reg  = 1'b0;
         assign o_valid = valid_reg;
         always@(posedge clk or posedge reset) begin 
             if(reset) begin 

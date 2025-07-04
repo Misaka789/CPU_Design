@@ -12,7 +12,7 @@ module SCPU(
     output    mem_w,
     output [31:0] PC_out,
     output [31:0] Addr_out,
-    output [31:0] Data_out,   // 写入dm 的数�? 根据DMType 的类型来决定其数�?
+    output [31:0] Data_out,   // 写入dm 的数�?? 根据DMType 的类型来决定其数�??
 
     // Debug Ports
     input  [4:0] reg_sel,
@@ -60,7 +60,7 @@ wire id_ex_flush ;
 wire ex_mem_flush = 1'b0 , mem_wb_flush = 1'b0;
 assign if_valid = 1'b1;//(ID_Zero == 1'b1) ? 1'b0 : 1'b1;
 
-// 这里注意不能只看ID_Zero 因为ID_Zero只能反映条件跳转指令, 还需要�?�虑无条件跳转指�?
+// 这里注意不能只看ID_Zero 因为ID_Zero只能反映条件跳转指令, 还需要�?�虑无条件跳转指�??
     wire [2:0] ID_NPCOp;
 //assign id_ex_flush = (ID_Zero == 1'b1) ? 1'b1 : 1'b0;
 
@@ -69,15 +69,16 @@ assign if_valid = 1'b1;//(ID_Zero == 1'b1) ? 1'b0 : 1'b1;
     // 
     wire [31:0] NPC, IF_PC_plus_4;
     PC U_PC(.clk(clk), .rst(reset), .NPC(NPC), .PC(PC_out));
-    // 修改这里来实现NPC的跳�?
+    // 修改这里来实现NPC的跳�??
     wire [31:0] ID_Imm;
     wire [31:0] EX_ALU_in_B, EX_ALU_out;
     wire [31:0] ID_RD1, ID_RD2;
     wire [2:0] EX_NPCOp; 
     
       wire [31:0] ID_RD1_final , ID_RD2_final;
-    // 修改这里来实现停�?
+    // 修改这里来实现停�??
     assign NPC = (pipeline_stall == 1'b1) ? PC_out : 
+                 (if_id_valid == 1'b0) ? PC_out + 32'd4:    // 注意这里的修�? 
                  (ID_NPCOp == `NPC_PLUS4) ? PC_out + 32'd4 :
                  (ID_NPCOp == `NPC_BRANCH) ? ID_PC + ID_Imm :
                  (ID_NPCOp == `NPC_JUMP)   ? ID_PC + ID_Imm :
@@ -85,7 +86,7 @@ assign if_valid = 1'b1;//(ID_Zero == 1'b1) ? 1'b0 : 1'b1;
                  PC_out + 32'd4; 
 
     assign IF_PC_plus_4 = PC_out + 32'd4;
-    //assign NPC = IF_PC_plus_4; // 这里只是�?单的设置为PC + 4 不�?�虑跳转语句 
+    //assign NPC = IF_PC_plus_4; // 这里只是�??单的设置为PC + 4 不�?�虑跳转语句 
 
     // 
     // Pipeline Register: IF/ID
@@ -119,14 +120,13 @@ assign if_valid = 1'b1;//(ID_Zero == 1'b1) ? 1'b0 : 1'b1;
     wire [2:0] EX_DMType;
     wire [2:0] MEM_DMType;
 
-
     ctrl U_ctrl(
         .Op(ID_inst[6:0]), .Funct7(ID_inst[31:25]), .Funct3(ID_inst[14:12]), .Zero(ID_Zero), // Zero connected later
         .RegWrite(ID_RegWrite), .MemWrite(ID_MemWrite), .MemRead(ID_MemRead), .NPCOp(ID_NPCOp), .DMType(ID_DMType),
         .WDSel(ID_WDSel), .ALUSrc(ID_ALUSrc), .ALUOp(ID_ALUOp), .EXTOp(ID_EXTOp), .GPRSel(ID_GPRSel)
     );
 
-    EXT U_EXT(.inst(ID_inst), .EXTOp(ID_EXTOp), .immout(ID_Imm));  // 组合逻辑可以看做是瞬时完�?
+    EXT U_EXT(.inst(ID_inst), .EXTOp(ID_EXTOp), .immout(ID_Imm));  // 组合逻辑可以看做是瞬时完�??
     
 
     wire [31:0] WB_Write_Data;
@@ -139,15 +139,15 @@ assign if_valid = 1'b1;//(ID_Zero == 1'b1) ? 1'b0 : 1'b1;
 	);
         
         // 在这个阶段进行跳转的判断
-        // 尤其要注意在添加了转发�?�辑之后 , �?有原来为RD1 或�?? RD2 的部分都�?要改�? final 注意注意, 看了�?晚上波形�? �?-_-
+        // 尤其要注意在添加了转发�?�辑之后 , �??有原来为RD1 或�?? RD2 的部分都�??要改�?? final 注意注意, 看了�??晚上波形�?? �??-_-
         comparator U_comparator(.Funct3(ID_inst[14:12]) , .Op(ID_inst[6:0]), .RD1(ID_RD1_final), .RD2(ID_RD2_final) ,.Zero(ID_Zero));
 
-    // 添加流水线寄存器控制单元的信�?  来解决控制冒险以及数据冒�?
+    // 添加流水线寄存器控制单元的信�??  来解决控制冒险以及数据冒�??
 
-//  添加前�?�单元来解决数据冒险
+//  添加前�?�单元来解决数据冒险
 wire [1:0]ForwardA ; 
 wire [1:0]ForwardB ;
-// 从EX 寄存器转�?: 10  从MEM 阶段来转�?:  01  从wb阶段转发 11 不使用转�?: 00
+// 从EX 寄存器转�??: 10  从MEM 阶段来转�??:  01  从wb阶段转发 11 不使用转�??: 00
 assign ForwardA = ( id_ex_valid  && EX_RegWrite && (EX_rd != 0) && (EX_rd == ID_rs1)) ? `from_ex :
                   ( ex_mem_valid && MEM_RegWrite && (MEM_rd != 0) && (MEM_rd == ID_rs1)) ? `from_mem :
                   ( mem_wb_valid && WB_RegWrite && (WB_rd != 0) &&(WB_rd == ID_rs1)) ? `from_wb :
@@ -158,25 +158,28 @@ assign ForwardB = ( id_ex_valid  && EX_RegWrite && (EX_rd != 0) && (EX_rd == ID_
                   `from_if;
 
 wire [31:0] MEM_Result;
+wire [31:0] MEM_Resut_final = (MEM_WDSel == `WDSel_FromPC) ? MEM_PC_plus_4 : MEM_Result;
+wire [31:0] EX_final = (EX_WDSel == `WDSel_FromPC) ? EX_PC_plus_4 : EX_ALU_out;
 assign MEM_Result = (MEM_WDSel == `WDSel_FromMEM) ? Data_in : MEM_ALU_out;
-assign ID_RD1_final = (ForwardA == `from_ex) ? EX_ALU_out : (ForwardA == `from_mem)? MEM_Result  : (ForwardA == `from_wb) ? WB_Write_Data: ID_RD1;
-assign ID_RD2_final = (ForwardB == `from_ex) ? EX_ALU_out : (ForwardB == `from_mem)? MEM_Result : (ForwardB == `from_wb) ? WB_Write_Data:ID_RD2;
+assign ID_RD1_final = (ForwardA == `from_ex) ? EX_final : (ForwardA == `from_mem)? MEM_Resut_final  : (ForwardA == `from_wb) ? WB_Write_Data: ID_RD1;
+assign ID_RD2_final = (ForwardB == `from_ex) ? EX_final : (ForwardB == `from_mem)? MEM_Resut_final : (ForwardB == `from_wb) ? WB_Write_Data:ID_RD2;
 
 
-// 冒险�?测�?�辑
+// 冒险�??测�?�辑
 HazardDetectionUnit U_Hazard (
     .EX_MemRead(EX_MemRead), 
     .EX_rd(EX_rd),           
     .ID_rs1(ID_rs1),       
-    .ID_rs2(ID_rs2),       
+    .ID_rs2(ID_rs2),
+    .valid(id_ex_valid),       
     .PipelineStall(pipeline_stall)
 );
+//assign pipeline_satll = id_ex_valid ? pipeline_stall_origin : 1'b0;
+assign if_id_flush  = (!if_id_valid)? 1'b0 :(ID_NPCOp == `NPC_PLUS4) ? 1'b0 : 1'b1;
+assign id_ex_flush  = pipeline_stall ? 1'b1 : 1'b0;   // 如果流水线需要阻塞一个周�??, 那么将id_ex的有效位置为0, 相当于插入了�??个气�?? 
 
-assign if_id_flush  = (ID_NPCOp == `NPC_PLUS4) ? 1'b0 : 1'b1;
-assign id_ex_flush  = pipeline_stall ? 1'b1 : 1'b0;   // 如果流水线需要阻塞一个周�?, 那么将id_ex的有效位置为0, 相当于插入了�?个气�? 
 
-
-//  添加前�?�单元来解决数据冒险
+//  添加前�?�单元来解决数据冒险
     // 
     // Pipeline Register: ID/EX
     // 
@@ -211,13 +214,13 @@ assign id_ex_flush  = pipeline_stall ? 1'b1 : 1'b0;   // 如果流水线需要�
     
     // 
     // Stage 4: MEM (Memory Access)
-    // 给流水线寄存器添加valid信号之后这里�?�? 进行修改
+    // 给流水线寄存器添加valid信号之后这里�??�?? 进行修改
     assign Addr_out = MEM_ALU_out;
     assign Data_out = MEM_Store_Data;      // 这里是输出的端口
     assign mem_w = ex_mem_valid ? MEM_MemWrite : 1'b0;
     //assign mem_w    = MEM_MemWrite;
     assign dm_type = MEM_DMType;
-    // 根据DMType 来�?�择�?要写入dm 的数�?
+    // 根据DMType 来�?�择�??要写入dm 的数�??
 
 
     // 
@@ -230,7 +233,7 @@ assign id_ex_flush  = pipeline_stall ? 1'b1 : 1'b0;   // 如果流水线需要�
         .o_Read_Data(WB_Read_Data), .o_ALU_out(WB_ALU_out), .o_rd(WB_rd), .o_PC_plus_4(WB_PC_plus_4),
         .o_RegWrite(WB_RegWrite), .o_WDSel(WB_WDSel), .o_valid(mem_wb_valid) 
     );
-            // WB_Read_Date 来自内存的读取数�?  WB_ALU_out 为计算结�?
+            // WB_Read_Date 来自内存的读取数�??  WB_ALU_out 为计算结�??
     // 
     // Stage 5: WB (Write Back)
     // 
